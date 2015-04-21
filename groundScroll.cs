@@ -21,9 +21,9 @@ public class groundScroll : MonoBehaviour
 		temp.z = temp.z - 28 * Time.deltaTime;
 		transform.position = temp;
 		//- if z < some lower bound, bump it back up to the top
-		if (temp.z <= 2.8)
+		if (temp.z <= 5)
 		{
-			temp.z = 140;
+			temp.z = 247.2f;
 			transform.position = temp;
 		}//if
 	}//shift

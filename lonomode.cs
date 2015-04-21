@@ -19,7 +19,7 @@ public class lonomode : MonoBehaviour
 		//high decrements everyframe
 		high = high - 5;
 
-		if (high == 10)
+		if (high == 100)
 		{
 			//change Hunter's appearance to Lono
 			// by switching through animations
