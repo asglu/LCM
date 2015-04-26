@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class lonomode : MonoBehaviour 
 {
 	GameObject hunter;
 	//metric to gauge Hunter's highness
-	public static int high = 100;
+	public static int high;
 
 	//metric for player score
 	public static int points;
@@ -44,7 +45,7 @@ public class lonomode : MonoBehaviour
 
 	void OnTriggerEnter(Collider other)
 	{
-		if (other.gameObject.CompareTag("runner"))
+		if (other.gameObject.CompareTag("Player"))
 		{
 			other.gameObject.SetActive(false);
 			points = points + 1;

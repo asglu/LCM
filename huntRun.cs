@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class huntRun : MonoBehaviour
@@ -14,10 +15,16 @@ public class huntRun : MonoBehaviour
 	
 	private float increment;
 
-	public static int high;
+	public Text highText;
+
+	private static int high;
+
 	
 	void start()
 	{
+		high = 100;
+		SetHighText ();
+
 		float h = -Input.GetAxis ("Horizontal");
 		transform.Translate (h, 0, 0);
 		
@@ -30,7 +37,7 @@ public class huntRun : MonoBehaviour
 	
 	void Update ()
 	{
-
+		//high = high - Time.deltaTime;
 		//movement
 		if (Input.GetKey (KeyCode.LeftArrow)) 
 		{
@@ -51,14 +58,25 @@ public class huntRun : MonoBehaviour
 		{
 			other.gameObject.SetActive(false);
 			high = high + 5;
+			SetHighText ();
 		}//if
 
-		if (other.gameObject.CompareTag("club"))
+		else if (other.gameObject.CompareTag("club"))
 		{
 			other.gameObject.SetActive(false);
 			high = 100;
+			SetHighText ();
 		}//if
-
 	}//OnTriggerEnter
+
+	void SetHighText ()
+	{
+		highText.text = "Highness: " + high.ToString ();
+
+		//if (high >= 100)
+		//{
+			//winText.text = "LONO MODE!!";
+		//}//if
+	}//SetHighText
 
 }//class
