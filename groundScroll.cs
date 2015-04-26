@@ -21,7 +21,7 @@ public class groundScroll : MonoBehaviour
 			reUp ();
 			transform.position = temp;
 			//reset all pickups
-			//reUp ();
+			reUp ();
 		}//if
 	}//shift
 
