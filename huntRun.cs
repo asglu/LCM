@@ -13,6 +13,8 @@ public class huntRun : MonoBehaviour
 	private float leftX = -6.48f;
 	
 	private float increment;
+
+	public static int high;
 	
 	void start()
 	{
@@ -42,4 +44,21 @@ public class huntRun : MonoBehaviour
 			transform.position = Vector3.Lerp(transform.position, transform.position + Vector3.right, increment);
 		}//if
 	}//update
+
+	void OnTriggerEnter(Collider other)
+	{
+		if (other.gameObject.CompareTag("drugs"))
+		{
+			other.gameObject.SetActive(false);
+			high = high + 5;
+		}//if
+
+		if (other.gameObject.CompareTag("club"))
+		{
+			other.gameObject.SetActive(false);
+			high = 100;
+		}//if
+
+	}//OnTriggerEnter
+
 }//class

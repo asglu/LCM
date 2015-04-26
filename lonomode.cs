@@ -5,7 +5,10 @@ public class lonomode : MonoBehaviour
 {
 	GameObject hunter;
 	//metric to gauge Hunter's highness
-	public int high = 100;
+	public static int high = 100;
+
+	//metric for player score
+	public static int points;
 
 	// Use this for initialization
 	void Start () 
@@ -32,7 +35,6 @@ public class lonomode : MonoBehaviour
 			//
 
 		}//if
-
 	}//update
 
 	void morph()
@@ -40,4 +42,12 @@ public class lonomode : MonoBehaviour
 		//hunter.
 	}//morph
 
+	void OnTriggerEnter(Collider other)
+	{
+		if (other.gameObject.CompareTag("runner"))
+		{
+			other.gameObject.SetActive(false);
+			points = points + 1;
+		}//if
+	}//OnTriggerEnter
 }//lonomode
