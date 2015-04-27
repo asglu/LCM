@@ -60,13 +60,22 @@ public class huntRun : MonoBehaviour
 			high = high + 5;
 			SetHighText ();
 		}//if
-
-		else if (other.gameObject.CompareTag("club"))
-		{
-			other.gameObject.SetActive(false);
-			high = 100;
-			SetHighText ();
-		}//if
+			else if (other.gameObject.CompareTag("club"))
+			{
+				other.gameObject.SetActive(false);
+				high = 100;
+				SetHighText ();
+			}//else if
+				else if (other.gameObject.CompareTag("runner"))
+				{
+					high = high - 5;
+					SetHighText ();
+				}//else if
+					else if (other.gameObject.CompareTag("sam"))
+					{
+						high = high - 100;
+						SetHighText ();
+					}//else if
 	}//OnTriggerEnter
 
 	void SetHighText ()

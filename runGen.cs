@@ -1,11 +1,14 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 
 public class runGen : MonoBehaviour
 {
 	public GameObject runner;
 	public float runSpeed ;
+
+	private static int high;
 
 	void Start()
 	{
@@ -34,4 +37,5 @@ public class runGen : MonoBehaviour
 		GetComponent<Rigidbody>().AddForce(Vector3.forward * runSpeed);
 		shift();
 	}//update
+
 }//class
