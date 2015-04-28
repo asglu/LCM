@@ -10,36 +10,41 @@ public class huntRun : MonoBehaviour
 	public float leftSpeed = 500;
 	public float rightSpeed = 500;
 	
-	private float rightX = 6.23f; 
-	private float leftX = -6.48f;
+	private float rightX = 6.66f; 
+	private float leftX = -5.97f;
 	
 	private float increment;
 
 	public Text highText;
 
-	private static int high;
+	private static float high;
 
-	
+
 	void start()
 	{
 		high = 100;
-		SetHighText ();
 
 		float h = -Input.GetAxis ("Horizontal");
 		transform.Translate (h, 0, 0);
-		
-		Vector3 tmpPos = transform.position;
-		//restrict Hunter from moving beyond X curb boundaries
-		tmpPos.x = Mathf.Clamp(tmpPos.x, rightX, leftX);
-		transform.position = tmpPos;
-
 	}//start
 	
 	void Update ()
 	{
-		//high = high - Time.deltaTime;
+		high = high - Time.deltaTime * 1;
+		SetHighText ();
+
+		//restricts X movement
+		if (transform.position.x > rightX)
+		{
+			transform.position = new Vector3(rightX, transform.position.y, transform.position.z);
+		}//if
+		else if (transform.position.x < leftX)
+		{
+			transform.position = new Vector3(leftX, transform.position.y, transform.position.z);
+	}//else if
+
 		//movement
-		if (Input.GetKey (KeyCode.LeftArrow)) 
+		if(Input.GetKey (KeyCode.LeftArrow)) 
 		{
 			increment += (leftSpeed / 100) * Time.deltaTime;
 			transform.position = Vector3.Lerp(transform.position, transform.position + Vector3.left, increment);
