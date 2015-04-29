@@ -10,32 +10,31 @@ public class runGen : MonoBehaviour
 
 	private static int high;
 
-	void Start()
+	void Start ()
 	{
-		runner = GameObject.Find("runner");
-	}
+		runner = GameObject.Find ("runner");
+	}//start
 	
 	// Movement should be applied to camera
 	public bool isLinkedToCamera = true;
 	
-	void shift()
+	void shift ()
 	{
 		Vector3 temp = transform.position;
 
 		temp.z = temp.z - 5 * Time.deltaTime;
 		transform.position = temp;
 
-		if (temp.z <= -2)
-		{
+		if (temp.z <= -2) {
 			temp.z = 826;
 			transform.position = temp;
-		}
-	}
+		}//if
+	}//shift
 	
 	void Update ()
 	{
-		GetComponent<Rigidbody>().AddForce(Vector3.forward * runSpeed);
-		shift();
+		GetComponent<Rigidbody> ().AddForce (Vector3.forward * runSpeed);
+		shift ();
 	}//update
 
 }//class

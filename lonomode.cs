@@ -2,9 +2,10 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class lonomode : MonoBehaviour 
+public class lonomode : MonoBehaviour
 {
 	GameObject hunter;
+	//GameObject Lono;
 	//metric to gauge Hunter's highness
 	public static int high;
 
@@ -12,19 +13,17 @@ public class lonomode : MonoBehaviour
 	public static int points;
 
 	// Use this for initialization
-	void Start () 
+	void Start ()
 	{
+		//anim = GetComponent<Animation> ();
 		hunter = GameObject.Find ("hunter");
+		//Lono = GameObject.Find ("Lono");
 	}//start
 	
 	// Update is called once per frame
-	void Update () 
+	void Update ()
 	{	
-		//high decrements everyframe
-		high = high - 5;
-
-		if (high == 100)
-		{
+		if (high >= 100) {
 			//change Hunter's appearance to Lono
 			// by switching through animations
 			//attach both animations to Hunter
@@ -33,21 +32,17 @@ public class lonomode : MonoBehaviour
 			//health to switch on and off alive
 			//and dead/game over modes
 			//hunter.
-			//
-
+			//anim.CrossFade ("GodMode_Anim_test_Sprite_1");
 		}//if
+		//else {
+			//anim.CrossFade ("sprite sheet hunter");
+		//s}//else
 	}//update
 
-	void morph()
+	void OnTriggerEnter (Collider other)
 	{
-		//hunter.
-	}//morph
-
-	void OnTriggerEnter(Collider other)
-	{
-		if (other.gameObject.CompareTag("Player"))
-		{
-			other.gameObject.SetActive(false);
+		if (other.gameObject.CompareTag ("Player")) {
+			other.gameObject.SetActive (false);
 			points = points + 1;
 		}//if
 	}//OnTriggerEnter

@@ -20,7 +20,7 @@ public class huntRun : MonoBehaviour
 	private static float high;
 
 
-	void start()
+	void start ()
 	{
 		high = 100;
 
@@ -34,63 +34,50 @@ public class huntRun : MonoBehaviour
 		SetHighText ();
 
 		//restricts X movement
-		if (transform.position.x > rightX)
-		{
-			transform.position = new Vector3(rightX, transform.position.y, transform.position.z);
+		if (transform.position.x > rightX) {
+			transform.position = new Vector3 (rightX, transform.position.y, transform.position.z);
 		}//if
-		else if (transform.position.x < leftX)
-		{
-			transform.position = new Vector3(leftX, transform.position.y, transform.position.z);
-	}//else if
+		else if (transform.position.x < leftX) {
+			transform.position = new Vector3 (leftX, transform.position.y, transform.position.z);
+		}//else if
 
 		//movement
-		if(Input.GetKey (KeyCode.LeftArrow)) 
-		{
+		if (Input.GetKey (KeyCode.LeftArrow)) {
 			increment += (leftSpeed / 100) * Time.deltaTime;
-			transform.position = Vector3.Lerp(transform.position, transform.position + Vector3.left, increment);
+			transform.position = Vector3.Lerp (transform.position, transform.position + Vector3.left, increment);
 		}//if
 		
-		if (Input.GetKey (KeyCode.RightArrow))
-		{
+		if (Input.GetKey (KeyCode.RightArrow)) {
 			increment += (rightSpeed / 100) * Time.deltaTime;
-			transform.position = Vector3.Lerp(transform.position, transform.position + Vector3.right, increment);
+			transform.position = Vector3.Lerp (transform.position, transform.position + Vector3.right, increment);
 		}//if
 	}//update
 
-	void OnTriggerEnter(Collider other)
+	void OnTriggerEnter (Collider other)
 	{
-		if (other.gameObject.CompareTag("drugs"))
-		{
-			other.gameObject.SetActive(false);
+		if (other.gameObject.CompareTag ("drugs")) {
+			other.gameObject.SetActive (false);
 			high = high + 5;
 			SetHighText ();
 		}//if
-			else if (other.gameObject.CompareTag("club"))
-			{
-				other.gameObject.SetActive(false);
-				high = 100;
-				SetHighText ();
-			}//else if
-				else if (other.gameObject.CompareTag("runner"))
-				{
-					high = high - 5;
-					SetHighText ();
-				}//else if
-					else if (other.gameObject.CompareTag("sam"))
-					{
-						high = high - 100;
-						SetHighText ();
-					}//else if
+			else if (other.gameObject.CompareTag ("club")) {
+			other.gameObject.SetActive (false);
+			high = 100;
+			SetHighText ();
+		}//else if
+				else if (other.gameObject.CompareTag ("runner")) {
+			high = high - 5;
+			SetHighText ();
+		}//else if
+			else if (other.gameObject.CompareTag ("sam")) {
+			high = high - 100;
+			SetHighText ();
+		}//else if
 	}//OnTriggerEnter
 
 	void SetHighText ()
 	{
 		highText.text = "Highness: " + high.ToString ();
-
-		//if (high >= 100)
-		//{
-			//winText.text = "LONO MODE!!";
-		//}//if
 	}//SetHighText
 
 }//class

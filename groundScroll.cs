@@ -7,7 +7,7 @@ public class groundScroll : MonoBehaviour
 	public bool isLinkedToCamera = false;
 	public static int high;
 
-	void shift()
+	void shift ()
 	{
 		Vector3 temp = transform.position;
 
@@ -15,8 +15,7 @@ public class groundScroll : MonoBehaviour
 		temp.z = temp.z - 15 * Time.deltaTime;
 		transform.position = temp;
 		//- if z < ground object lower bound, bump it back up to the top
-		if (temp.z <= 27)
-		{
+		if (temp.z <= 27) {
 			temp.z = 825.9f;
 			reUp ();
 			transform.position = temp;
@@ -27,15 +26,14 @@ public class groundScroll : MonoBehaviour
 
 	void Update ()
 	{
-		shift();
+		shift ();
 	}//Update
 
 	//resets all pickups
-	void reUp()
+	void reUp ()
 	{
-		if (gameObject.CompareTag("drugs") || gameObject.CompareTag("club"))
-		{
-			gameObject.SetActive(true);
+		if (gameObject.CompareTag ("drugs") || gameObject.CompareTag ("club")) {
+			gameObject.SetActive (true);
 		}//if
 	}//reUp
 

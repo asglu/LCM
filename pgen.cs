@@ -2,10 +2,9 @@
 using UnityEngine;
 using System.Collections;
 
-
 public class pgen : MonoBehaviour
 {
-	void shift()
+	void shift ()
 	{
 		Vector3 temp = transform.position;
 		
@@ -15,8 +14,7 @@ public class pgen : MonoBehaviour
 		temp.z = temp.z - 15 * Time.deltaTime;
 		transform.position = temp;
 		//- if z < some lower bound, bump it back up to the top
-		if (temp.z <= 27)
-		{
+		if (temp.z <= 27) {
 			temp.z = 825;
 			transform.position = temp;
 		}//if
