@@ -13,6 +13,7 @@ public class runGen : MonoBehaviour
 	void Start ()
 	{
 		runner = GameObject.Find ("runner");
+
 	}//start
 	
 	// Movement should be applied to camera
