@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
-[RequireComponent(typeof(AudioSource))]
 public class huntRun : MonoBehaviour
 {
 	public KeyCode left = KeyCode.LeftArrow;
@@ -14,42 +13,54 @@ public class huntRun : MonoBehaviour
 	private float increment;
 	public Text highText;
 	public Text pointText;
-	public static float high;
+	public static float high = 20;
 	private static int points;
 	public Animator hunt;
-	public GameObject spray;
+	public GameObject splat;
 	public GameObject bloodWater;
-	public GameObject pakalolo;
-	public GameObject clash;
+	public GameObject pakcam;
+	public GameObject lonocam;
+	public AudioSource local;
+	public AudioSource haole;
+	public AudioSource sole;
 
-	
+		
 	void start ()
 	{
-		high = 50;
 		float h = -Input.GetAxis ("Horizontal");
 		transform.Translate (h, 0, 0);
-		spray.gameObject.SetActive (false);
 		bloodWater.gameObject.SetActive (false);
-		//pakalolo.gameObject.SetActive (true);
-		//clash.gameObject.SetActive (false);
-
+		splat.gameObject.SetActive (false);
 		//hunter
 		hunt = GetComponent<Animator> ();
-
+		
 	}//start
-	
+
 	void Update ()
 	{
-		high = high - Time.deltaTime * 1;
+		high -= Time.deltaTime;
 		SetHighText ();
 		SetPointText ();
-		//set splat animation
-		if (hunt.GetBool("close") == true){
-			spray.gameObject.SetActive (true);
+		
+		if (high > 20) {
+			//godmode
+			hunt.SetBool ("fly", true);
+			bloodWater.gameObject.SetActive (true);
+			pakcam.gameObject.SetActive (false);
+			lonocam.gameObject.SetActive (true);
 		}//if
-		//stop animation
-		if (hunt.GetBool("close") == false){
-			spray.gameObject.SetActive (false);
+		
+		if (high < 20) {
+			//regularmode
+			hunt.SetBool ("fly", false);
+			bloodWater.gameObject.SetActive (false);
+			pakcam.gameObject.SetActive (true);
+			lonocam.gameObject.SetActive (false);
+		}//if
+		if (high < 0) {
+			//regularmode
+			Application.LoadLevel ("EndScreen");
+			high = 20;
 		}//if
 		
 		//restricts X movement
@@ -73,28 +84,6 @@ public class huntRun : MonoBehaviour
 		}//if
 	}//update
 	
-	void FixedUpdate ()
-	{
-		if (high > 50) {
-			//godmode
-			hunt.SetBool ("fly", true);
-			pakalolo.gameObject.SetActive (false);
-			clash.gameObject.SetActive (true);
-			bloodWater.gameObject.SetActive (true);
-			//change song
-			//audio.Stop();
-			//change skybox
-			
-			//change water color	
-		}//if
-		
-		if (high < 50) {
-			//regularmode
-			hunt.SetBool ("fly", false);
-			bloodWater.gameObject.SetActive (false);
-		}//if
-	}//FU
-	
 	void OnTriggerEnter (Collider other)
 	{
 		//pickups
@@ -106,24 +95,32 @@ public class huntRun : MonoBehaviour
 		//pickups
 		if (other.gameObject.CompareTag ("club") && hunt.GetBool ("fly") == false) {
 			other.gameObject.SetActive (false);
-			high = 100;
+			high = 70;
 			SetHighText ();
 		}//if
 		//NPC
-		if (other.gameObject.CompareTag ("runner") && hunt.GetBool ("fly") == false) {
+		if (other.gameObject.CompareTag ("haole") && hunt.GetBool ("fly") == false) {
 			high = high - 5;
 			SetHighText ();
+			haole.Play ();
+		}//if
+		if (other.gameObject.CompareTag ("local") && hunt.GetBool ("fly") == false) {
+			high = high - 5;
+			SetHighText ();
+			local.Play ();
 		}//if
 		//NPC
 		if (other.gameObject.CompareTag ("sam") && hunt.GetBool ("fly") == false) {
+			sole.Play ();
 			high = high - 100;
 			SetHighText ();
+
 		}//if
 		//godmode NPC
-		if (other.gameObject.CompareTag ("runner") && hunt.GetBool ("fly") == true 
-			|| other.gameObject.CompareTag ("runner") && hunt.GetBool ("close") == true) {
+		if (other.gameObject.CompareTag ("haole") && hunt.GetBool ("fly") == true 
+			|| other.gameObject.CompareTag ("haole") && hunt.GetBool ("close") == true) {
 			//trigger splat animation
-			spray.gameObject.SetActive (true);
+			splat.gameObject.SetActive (true);
 			//trigger hit animation
 			hunt.SetBool ("close", true);
 			other.gameObject.SetActive (false);
@@ -132,26 +129,62 @@ public class huntRun : MonoBehaviour
 		}//if
 		//godmode NPC
 		if (other.gameObject.CompareTag ("sam") && hunt.GetBool ("fly") == true 
-			|| other.gameObject.CompareTag ("runner") && hunt.GetBool ("close") == true) {
+			|| other.gameObject.CompareTag ("sam") && hunt.GetBool ("close") == true) {
 			//trigger splat animation
-			spray.gameObject.SetActive (true);
+			splat.gameObject.SetActive (true);
 			//trigger hit animation
 			hunt.SetBool ("close", true);
 			other.gameObject.SetActive (false);
 			points = points + 10;
 			SetPointText ();
 		}//if
+		//godmode NPC
+		if (other.gameObject.CompareTag ("local") && hunt.GetBool ("fly") == true 
+			|| other.gameObject.CompareTag ("local") && hunt.GetBool ("close") == true) {
+			//trigger splat animation
+			splat.gameObject.SetActive (true);
+			//trigger hit animation
+			hunt.SetBool ("close", true);
+			other.gameObject.SetActive (false);
+			points = points + 5;
+			SetPointText ();
+		}//if
 		else {
+			splat.gameObject.SetActive (false);
 			hunt.SetBool ("close", false);
-			spray.gameObject.SetActive (false);
 		}
 	}//OnTriggerEnter
+	
+	void OnTriggerExit (Collider other)
+	{
+		//godmode NPC
+		if (!other.gameObject.CompareTag ("local") && hunt.GetBool ("fly") == true
+			|| !other.gameObject.CompareTag ("local") && hunt.GetBool ("close") == true) {
+			//trigger splat animation
+			splat.gameObject.SetActive (false);
+			hunt.SetBool ("close", false);
+		}//if
+		//godmode NPC
+		if (!other.gameObject.CompareTag ("haole") && hunt.GetBool ("fly") == true
+			|| !other.gameObject.CompareTag ("haole") && hunt.GetBool ("close") == true) {
+			//trigger splat animation
+			splat.gameObject.SetActive (false);
+			hunt.SetBool ("close", false);
+		}//if
+		//godmode NPC
+		if (!other.gameObject.CompareTag ("sam") && hunt.GetBool ("fly") == true 
+			|| !other.gameObject.CompareTag ("sam") && hunt.GetBool ("close") == true) {
+			//trigger splat animation
+			splat.gameObject.SetActive (false);
+			hunt.SetBool ("close", false);
+		}//if
+	}//OnTriggerExit
 	
 	void SetHighText ()
 	{
 		highText.text = "Highness: " + high.ToString ();
 	}//SetHighText
-
+	
 	void SetPointText ()
 	{
 		pointText.text = "Killpoints: " + points.ToString ();
